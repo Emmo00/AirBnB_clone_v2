@@ -1,0 +1,5 @@
+# local storage file
+file.json
+
+# pycache
+__pycache__/
