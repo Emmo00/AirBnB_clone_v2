@@ -27,11 +27,11 @@ class FileStorage:
                 try:
                     cls_nme = eval(cls_name)
                     x = True
-                except:
+                except NameError:
                     x = False
                 if x is True:
                     if cls_nme == cls:
-                        temp.update({key:value})
+                        temp.update({key: value})
             return(temp)
         return FileStorage.__objects
 
