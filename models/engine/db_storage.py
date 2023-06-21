@@ -33,7 +33,7 @@ class DBStorage:
             instances = self.__session.query(cls).all()
         else:
             instances = []
-            for cls in [State, City, User, Place]:
+            for cls in [State, City, User, Place, Review]:
                 instances.extend(self.__session.query(cls).all())
         all_instances = {}
         for instance in instances:
