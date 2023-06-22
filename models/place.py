@@ -57,6 +57,8 @@ class Place(BaseModel, Base):
 
         @property
         def amenities(self):
+            from models import storage
+            from models.amenity import Amenity
             amenities = []
             all_amenities = storage.all(Amenity)
             for key, amenity_obj in all_amenities.items():
