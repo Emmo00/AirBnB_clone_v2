@@ -9,12 +9,15 @@ import os
 
 class State(BaseModel, Base):
     """ State class """
-    __tablename__ = 'states'
-    name = Column(String(128), nullable=False)
-
-    if os.environ.get('HBNB_TYPE_STORAGE') == 'db':
-        cities = relationship('City', cascade='all, delete-orphan', backref='state')
+    stored = os.environ.get('HBNB_TYPE_STORAGE')
+    if stored == 'db':
+        __tablename__ = 'states'
+        name = Column(String(128), nullable=False)
+        cities = relationship('City', cascade='all, delete-orphan',
+                              backref='state')
     else:
+        name = ""
+
         @property
         def cities(self):
             from models import storage

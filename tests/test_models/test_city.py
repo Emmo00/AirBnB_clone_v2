@@ -3,7 +3,7 @@
 from tests.test_models.test_base_model import test_basemodel
 from models.base_model import BaseModel
 from models.city import City
-from models import storage
+import os
 
 
 class test_City(test_basemodel):
@@ -38,7 +38,8 @@ class test_City(test_basemodel):
         new_city = City()
         self.assertTrue(hasattr(new_city, "name"))
         self.assertTrue(hasattr(new_city, "state_id"))
-        if storage == 'db':
+        stored = os.environ.get('HBNB_TYPE_STORAGE')
+        if stored == 'db':
             self.assertEqual(new_city.name, None)
             self.assertEqual(new_city.state_id, None)
         else:
