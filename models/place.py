@@ -67,6 +67,6 @@ class Place(BaseModel, Base):
             return amenities
 
         @amenities.setter
-        def amenities(seld, value):
+        def amenities(self, value):
             if isinstance(value, Amenity):
                 self.amenity_ids.append(value.id)
