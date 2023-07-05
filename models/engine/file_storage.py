@@ -32,7 +32,7 @@ class FileStorage:
                 if x is True:
                     if cls_nme == cls:
                         temp.update({key: value})
-            return(temp)
+            return (temp)
         return FileStorage.__objects
 
     def delete(self, obj=None):
