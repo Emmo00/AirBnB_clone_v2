@@ -10,14 +10,12 @@ import os
 class State(BaseModel, Base):
     """ State class """
     stored = os.environ.get('HBNB_TYPE_STORAGE')
+    __tablename__ = 'states'
+    name = Column(String(128), nullable=False)
     if stored == 'db':
-        __tablename__ = 'states'
-        name = Column(String(128), nullable=False)
         cities = relationship('City', cascade='all, delete-orphan',
                               backref='state')
     else:
-        name = ""
-
         @property
         def cities(self):
             from models import storage
