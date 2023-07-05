@@ -1,10 +1,8 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
 from models.base_model import BaseModel, Base
-from models.review import Review
 from sqlalchemy import Column, Float, String, Table, Integer, ForeignKey
 from sqlalchemy.orm import relationship
-import os
 
 
 place_amenity = Table('place_amenity', Base.metadata,
@@ -27,37 +25,8 @@ class Place(BaseModel, Base):
     price_by_night = Column(Integer, nullable=False, default=0)
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
-    amenity_ids = []
-
-    stored = os.environ.get('HBNB_TYPE_STORAGE')
-    if stored == 'db':
-        reviews = relationship('Review',
-                               cascade='all, delete-orphan', backref='place')
-        amenities = relationship('Amenity',
-                                 secondary=place_amenity, viewonly=False,
-                                 back_populates='place_amenities')
-    else:
-        @property
-        def reviews(self):
-            reviews = []
-            all_reviews = storage.all(Review)
-            for key, review_obj in all_reviews.items():
-                if review_obj.place_id == self.id:
-                    reviews.append(review_obj)
-            return reviews
-
-        @property
-        def amenities(self):
-            from models import storage
-            from models.amenity import Amenity
-            amenities = []
-            all_amenities = storage.all(Amenity)
-            for key, amenity_obj in all_amenities.items():
-                if amenity_obj.id in self.amenity_ids:
-                    amenities.append(amenity_obj)
-            return amenities
-
-        @amenities.setter
-        def amenities(self, value):
-            if isinstance(value, Amenity):
-                self.amenity_ids.append(value.id)
+    reviews = relationship('Review',
+                           cascade='all, delete-orphan', backref='place')
+    amenities = relationship('Amenity',
+                             secondary=place_amenity, viewonly=False,
+                             back_populates='place_amenities')
