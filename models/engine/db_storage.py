@@ -19,12 +19,13 @@ class DBStorage:
     __session = None
 
     def __init__(self):
-        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}:3306/{}'.format(
-            os.environ.get('HBNB_MYSQL_USER'),
-            os.environ.get('HBNB_MYSQL_PWD'),
-            os.environ.get('HBNB_MYSQL_HOST'),
-            os.environ.get('HBNB_MYSQL_DB')
-            ), pool_pre_ping=True)
+        self.__engine = create_engine(
+                'mysql+mysqldb://{}:{}@{}:3306/{}'.format(
+                    os.environ.get('HBNB_MYSQL_USER'),
+                    os.environ.get('HBNB_MYSQL_PWD'),
+                    os.environ.get('HBNB_MYSQL_HOST'),
+                    os.environ.get('HBNB_MYSQL_DB')
+                    ), pool_pre_ping=True)
         if os.environ.get('HBNB_ENV') == 'test':
             Base.metadata.drop_all(self.__engine)
 
@@ -37,17 +38,19 @@ class DBStorage:
                 instances.extend(self.__session.query(cls).all())
         all_instances = {}
         for instance in instances:
-            all_instances['{}.{}'.format(instance.__class__.__name__, instance.id)] = instance
+            all_instances['{}.{}'.format(
+                instance.__class__.__name__,
+                instance.id)] = instance
         return all_instances
 
     def new(self, obj):
         self.__session.add(obj)
-    
+
     def save(self):
         self.__session.commit()
 
     def delete(self, obj=None):
-        if obj == None:
+        if obj is None:
             return
         self.__session.delete(obj)
 
