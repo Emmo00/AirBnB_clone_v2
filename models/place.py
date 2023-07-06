@@ -30,3 +30,9 @@ class Place(BaseModel, Base):
     amenities = relationship('Amenity',
                              secondary=place_amenity, viewonly=False,
                              back_populates='place_amenities')
+    @property
+    def amenity_ids(self):
+        list_ids = []
+        for amenity in self.amenities:
+            list_ids.append(amenity.id)
+        return list_ids

@@ -2,15 +2,20 @@
 """ Module for testing file storage"""
 import unittest
 from models.base_model import BaseModel
+from models.engine.file_storage import FileStorage
 from models import storage
 import os
 
 
 class test_fileStorage(unittest.TestCase):
     """ Class to test the file storage method """
+    mode = os.environ.get('HBNB_TYPE_STORAGE')
 
     def setUp(self):
         """ Set up test environment """
+        mode = os.environ.get('HBNB_TYPE_STORAGE')
+        if mode == 'db':
+            return
         del_list = []
         for key in storage._FileStorage__objects.keys():
             del_list.append(key)
@@ -30,11 +35,12 @@ class test_fileStorage(unittest.TestCase):
 
     def test_new(self):
         """ New object is correctly added to __objects """
-        new = BaseModel()
-        temp = None
-        for obj in storage.all().values():
-            temp = obj
-        self.assertTrue(temp is obj)
+        my_storage = FileStorage()
+        obj1 = BaseModel()
+        my_storage.new(obj1)
+        self.assertTrue(
+            f"{obj1.__class__.__name__}.{obj1.id}" in my_storage.all()
+            )
 
     def test_all(self):
         """ __objects is properly returned """
@@ -67,9 +73,13 @@ class test_fileStorage(unittest.TestCase):
         storage.save()
         storage.reload()
         loaded = None
-        for obj in storage.all().values():
-            loaded = obj
-        self.assertEqual(new.to_dict()['id'], loaded.to_dict()['id'])
+        self.assertTrue(
+            f"{new.__class__.__name__}.{new.id}" in storage.all()
+        )
+        self.assertTrue(os.path.exists('file.json'))
+        another_storage = FileStorage()
+        another_storage.reload()
+        self.assertTrue(len(another_storage.all()) == 1)
 
     def test_reload_empty(self):
         """ Load from an empty file """
@@ -82,6 +92,7 @@ class test_fileStorage(unittest.TestCase):
         """ Nothing happens if file does not exist """
         self.assertEqual(storage.reload(), None)
 
+    @unittest.skipIf(mode == 'db', 'db mode')
     def test_base_model_save(self):
         """ BaseModel save method calls storage save """
         new = BaseModel()

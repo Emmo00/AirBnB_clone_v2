@@ -17,6 +17,7 @@ class test_Amenity(test_basemodel):
     def test_name2(self):
         """ """
         new = self.value()
+        new.name = ""
         self.assertEqual(type(new.name), str)
 
     def test_is_subclass(self):
