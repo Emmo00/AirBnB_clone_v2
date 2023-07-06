@@ -26,8 +26,8 @@ config_file="/etc/nginx/sites-available/default"
 # backup config file
 cp "$config_file" "$config_file.bak"
 
-# new location
-location="location \/hbnb_static {\n    alias \/data\/web_static\/current\/;\n}"
+# new location block
+location_block="location \/hbnb_static {\n    alias \/data\/web_static\/current\/;\n}"
 
 sudo sed -i "/^\s*server\s*{/,/^\s*}/ s|^\s*}|\t$location_block\n\n&|" $config_file
 
