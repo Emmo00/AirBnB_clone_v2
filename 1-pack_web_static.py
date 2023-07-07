@@ -7,6 +7,7 @@ from datetime import datetime
 env.hosts = ['localhost']
 env.user = 'root'
 
+
 def do_pack():
     """ do the actual packing"""
     time = datetime.now().strftime("%Y%m%d%H%M%S")
