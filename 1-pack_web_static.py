@@ -12,4 +12,4 @@ def do_pack():
     time = datetime.now().strftime("%Y%m%d%H%M%S")
     archive_name = "web_static_" + time + ".tgz"
     local("mkdir -p versions")
-    local("tar -czvf versions/" + archive_name + " web_static/")
+    local("tar -czvf versions/" + archive_name + " web_static/*")
