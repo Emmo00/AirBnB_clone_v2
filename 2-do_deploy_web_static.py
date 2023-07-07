@@ -32,5 +32,5 @@ def do_deploy(archive_path):
     # delete sym link /data/../durent
     result4 = run("rm -rf /data/web_static/current")
     # create new to link to archive extract
-    result5 = run("run: ln -s /data/web_static/releases/web_static_20170315003959/ /data/web_static/current")
+    result5 = run("ln -s /data/web_static/releases/" + archive_name.strip(".tgz") + "/ /data/web_static/current")
     return True
