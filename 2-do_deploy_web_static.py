@@ -19,18 +19,31 @@ def do_pack():
 
 
 def do_deploy(archive_path):
-    archive_name = archive_path.split('/')[-1]
+    """deploy files"""
+    archive_filename = os.path.basename(archive_path)
+    archive_name = os.path.splitext(archive_filename)[0]
     # check of archive path exists, return false
     if not os.path.exists(archive_path):
         return False
-    # put archive to /tmp/
-    result1 = put(archive_path, '/tmp/')
-    # uncompres to /data/...
-    result2 = run("tar -xzf /tmp/" + archive_name + " -C /data/web_static/releases/" + archive_name.strip('.tgx') + "/")
-    # delete the archive
-    result3 = run("rm /tmp/" + archive_name)
-    # delete sym link /data/../durent
-    result4 = run("rm -rf /data/web_static/current")
-    # create new to link to archive extract
-    result5 = run("ln -s /data/web_static/releases/" + archive_name.strip(".tgz") + "/ /data/web_static/current")
-    return True
+    try:
+        # put archive to /tmp/
+        put(archive_path, '/tmp/')
+        # uncompres to /data/...
+        target_dir = "/data/web_static/releases/" + archive_name
+        run("mkdir -p " + target_dir)
+
+        run("tar -xzf /tmp/" + archive_filename + " -C " + target_dir)
+        # delete the archive
+        run("rm /tmp/" + archive_filename)
+        # Move the contents of the extracted folder
+        run("mv " + target_dir + "/web_static/* " + target_dir)
+        # Remove the extracted folder
+        run("rm -rf " + target_dir + "/web_static")
+        # delete sym link /data/../durent
+        run("rm -rf /data/web_static/current")
+        # create new to link to archive extract
+        run("ln -s " + target_dir + " /data/web_static/current")
+        return True
+    except Exception as e:
+        print(e)
+        return False
