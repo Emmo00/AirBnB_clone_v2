@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ generate .tgz file form the contents of web_static folder in
 the AirBnB repo"""
-from fabric.api import local, env
+from fabric.api import *
 from datetime import datetime
 import os
 
