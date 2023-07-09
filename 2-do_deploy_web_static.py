@@ -7,6 +7,7 @@ import os
 
 env.hosts = ['34.229.137.157', '100.26.249.157']
 
+
 def do_pack():
     """ do the actual packing"""
     time = datetime.now().strftime("%Y%m%d%H%M%S")
