@@ -25,7 +25,7 @@ def do_deploy(archive_path):
     if not os.path.exists(archive_path):
         return False
     try:
-        #reset ssh
+        # reset ssh
         local("eval `ssh-agent -s`")
         local("ssh-add " + env.get(" key_filename"))
         # put archive to /tmp/
