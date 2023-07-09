@@ -6,9 +6,6 @@ from datetime import datetime
 import os
 
 env.hosts = ['34.229.137.157', '100.26.249.157']
-env.user = env.get('user')
-env.key_filename = env.get('key_filename')
-
 
 def do_pack():
     """ do the actual packing"""
