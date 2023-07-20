@@ -37,7 +37,7 @@ class FileStorage:
 
     def delete(self, obj=None):
         """
-        delete obj from __objects if it’s inside -
+        delete obj from __objects if it's inside -
         if obj is equal to None, the method should not do anything
         """
         from models.base_model import BaseModel
