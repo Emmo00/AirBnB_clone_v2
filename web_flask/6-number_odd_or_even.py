@@ -57,4 +57,5 @@ def number_state(n):
     return render_template('6-number_odd_or_even.html', n=n, state=state)
 
 
-app.run('0.0.0.0', 5000)
+if __name__ == '__main__':
+    app.run('0.0.0.0', 5000)

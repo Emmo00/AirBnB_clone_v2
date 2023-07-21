@@ -47,4 +47,5 @@ def number_page_n(n):
     return render_template('5-number.html', number=n)
 
 
-app.run('0.0.0.0', 5000)
+if __name__ == '__main__':
+    app.run('0.0.0.0', 5000)
