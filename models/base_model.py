@@ -15,6 +15,11 @@ class BaseModel:
     created_at = Column(DateTime, nullable=False, default=func.now())
     updated_at = Column(DateTime, nullable=False, default=func.now())
 
+    __table_args__ = {
+        'mysql_default_charset': 'latin1',
+        'mysql_collate': 'latin1_swedish_ci',
+    }
+
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
         if not kwargs:

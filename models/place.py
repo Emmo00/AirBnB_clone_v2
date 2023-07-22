@@ -9,7 +9,8 @@ place_amenity = Table('place_amenity', Base.metadata,
                       Column('place_id', ForeignKey('places.id'),
                              nullable=False, primary_key=True),
                       Column('amenity_id', ForeignKey('amenities.id'),
-                             nullable=False, primary_key=True))
+                             nullable=False, primary_key=True),
+                      mysql_collate='latin1_swedish_ci')
 
 
 class Place(BaseModel, Base):
