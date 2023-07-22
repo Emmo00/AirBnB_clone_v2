@@ -14,7 +14,7 @@ def close_db(exception=None):
 
 
 @app.route('/cities_by_states', strict_slashes=False)
-def state_list():
+def cities_state_list():
     """city by state list route"""
     states = []
     for state in storage.all(State).values():
