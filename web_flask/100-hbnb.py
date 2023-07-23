@@ -4,6 +4,8 @@ from flask import Flask, render_template
 from models import storage
 from models.state import State
 from models.amenity import Amenity
+from models.place import Place
+from models.user import User
 
 app = Flask(__name__)
 
@@ -14,9 +16,9 @@ def close_db(exception=None):
     storage.close()
 
 
-@app.route('/hbnb_filters', strict_slashes=False)
-def hbnb_filters():
-    """hbnb filters route"""
+@app.route('/hbnb', strict_slashes=False)
+def hbnb():
+    """hbnb route"""
     states = list(storage.all(State).values())
     states.sort(key=lambda x: x.name)
 
@@ -26,10 +28,19 @@ def hbnb_filters():
         return cities
     amenities = list(storage.all(Amenity).values())
     amenities.sort(key=lambda x: x.name)
-    return render_template("10-hbnb_filters.html",
+    places = list(storage.all(Place).values())
+    places.sort(key=lambda x: x.name)
+
+    def get_owner_name(user_id):
+        users = list(storage.all(User).keys())
+        user_index = users.index(f'User.{user_id}')
+        owner = list(storage.all(User).values())[user_index]
+        return f'{owner.first_name} {owner.last_name}'
+    return render_template("100-hbnb.html",
                            states=states, get_cities=get_cities,
-                           amenities=amenities)
+                           amenities=amenities,
+                           places=places, get_owner_name=get_owner_name)
 
 
 if __name__ == '__main__':
-    app.run('0.0.0.0', 5000)
+    app.run('0.0.0.0', 5000, debug=True)
