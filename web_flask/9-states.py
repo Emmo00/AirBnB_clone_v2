@@ -33,10 +33,11 @@ def state(id):
         index = -1
     if index == -1:
         state = None
+        cities = []
     else:
-        state = list(states.values)[index]
-    cities = state.cities
-    cities.sort(key=lambda x: x.name)
+        state = list(states.values())[index]
+        cities = state.cities
+        cities.sort(key=lambda x: x.name)
     return render_template("9-states.html", state=state, cities=cities)
 
 
